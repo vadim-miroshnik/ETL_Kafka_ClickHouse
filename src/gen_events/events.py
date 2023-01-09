@@ -66,7 +66,7 @@ def gen_events(users: dict, movies: list) -> list:
 
 def run_gen_events(users: dict, movies: list, threads: int = 2):
     # divide users between threads
-    part = len(users) / threads
+    part = int(len(users) / threads)
     usrs = [
         dict(itertools.islice(users.items(), i * part, (i + 1) * part))
         for i in range(threads)
