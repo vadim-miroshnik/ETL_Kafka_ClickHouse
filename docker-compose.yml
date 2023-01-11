@@ -1,0 +1,9 @@
+version: '3.5'
+
+networks:
+    movies:
+      name: movies
+
+volumes:
+    postgres:
+    pgadmin:
