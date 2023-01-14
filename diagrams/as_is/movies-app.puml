@@ -5,16 +5,20 @@ actor User
 component AdminWebApp #lightgreen
 component AsyncService #lightgreen
 component AuthService #lightgreen
-component ETL #lightgreen
+component ETL_1 #lightgreen
+component ETL_2 #lightgreen
+database sqlite #yellow
 database Postgres #yellow
 database ElasticSearch #yellow
 database Redis #yellow
 
 Admin -> AdminWebApp: manage movies
 AdminWebApp -down-> Postgres: CRUD movies
-Postgres -down-> ETL: new movies & updates
-ETL -down-> ElasticSearch: update indexes
-ETL -> Redis: state storage
+sqlite -down-> ETL_1: legacy storage
+ETL_1 -> Postgres: init load
+Postgres -down-> ETL_2: new movies & updates
+ETL_2 -down-> ElasticSearch: update indexes
+ETL_2 -> Redis: state storage
 
 User -> AuthService: Login/Logout
 AsyncService -> Redis: cache
