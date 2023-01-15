@@ -15,6 +15,7 @@ connection_info = {
     "use_prepared_statements": True,
 }
 
+
 def measure(func):
     @wraps(func)
     def inner(*args, **kwargs):
@@ -24,6 +25,8 @@ def measure(func):
         finally:
             end = time.time()
             print(end - start)
+            with open("log.txt", 'a', encoding='utf-8') as file:
+                file.write(f"{str(end - start)}\n")
 
     return inner
 

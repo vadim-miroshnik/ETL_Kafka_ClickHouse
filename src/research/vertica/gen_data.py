@@ -37,8 +37,8 @@ def create_views_table():
         );
         """
         )
-        # cursor.execute("DELETE FROM views")
-        # connection.commit()
+        cursor.execute("DELETE FROM views")
+        connection.commit()
 
 def gen_event() -> tuple:
     event = (
@@ -54,7 +54,7 @@ def gen_events(prm):
     with vertica_python.connect(**connection_info) as connection:
         cursor = connection.cursor()
         events = [gen_event() for _ in range(1000)]
-        start = time.time()
+        # start = time.time()
         try:
             cursor.executemany(
                 "INSERT INTO views (user_id, movie_id, viewed_frame, event_time) VALUES (?, ?, ?, ?)",
@@ -64,12 +64,17 @@ def gen_events(prm):
             raise e
         cursor.close()
         connection.commit()
-        end = time.time()
-        print(end - start)
+        # end = time.time()
+        # print(end - start)
 
 
 def generate_data():
-    process_map(gen_events, range(0, 10), max_workers=4, chunksize=1)
+    start = time.time()
+    process_map(gen_events, range(0, 10000), max_workers=4, chunksize=1)
+    end = time.time()
+    print(end - start)
+    with open("log.txt", 'a', encoding='utf-8') as file:
+        file.write(f"Insert 10000000 events = {str(end - start)}\n")
 
 
 if __name__ == "__main__":
