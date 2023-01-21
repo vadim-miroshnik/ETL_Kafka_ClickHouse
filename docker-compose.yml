@@ -1,5 +1,17 @@
 version: '3.5'
 
+services:
+  ugc:
+    container_name: ugc
+    image: ugc
+    networks:
+      - movies
+    environment:
+      KAFKA__HOST: broker
+      KAFKA__PORT: 29092
+    depends_on:
+      - broker
+
 networks:
     movies:
       name: movies

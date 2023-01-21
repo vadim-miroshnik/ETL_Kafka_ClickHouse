@@ -20,6 +20,9 @@ run_kafka:
 
 run_environment: run_click_house run_kafka
 
+run_ugc:
+	docker-compose -f docker-compose.yml -f docker-compose_kafka.yml -f docker-compose.override.yml up --build ugc
+
 down:
 	docker-compose -f docker-compose.yml -f docker-compose_kafka.yml -f docker-compose_clickhouse.yml down
 
