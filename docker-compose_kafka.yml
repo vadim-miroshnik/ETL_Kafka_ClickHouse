@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:6.0.1
+    image: confluentinc/cp-zookeeper:7.3.1
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -14,7 +14,7 @@ services:
       - movies
 
   broker:
-    image: confluentinc/cp-server:6.0.1
+    image: confluentinc/cp-server:7.3.1
     hostname: broker
     container_name: broker
     depends_on:
@@ -45,7 +45,7 @@ services:
       - movies
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:6.0.1
+    image: confluentinc/cp-schema-registry:7.3.1
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -60,7 +60,7 @@ services:
       - movies
 
   connect:
-    image: cnfldemos/cp-server-connect-datagen:0.4.0-6.0.1
+    image: cnfldemos/cp-server-connect-datagen:0.5.3-7.1.0
     hostname: connect
     container_name: connect
     depends_on:
@@ -93,7 +93,7 @@ services:
       - movies
 
   control-center:
-    image: confluentinc/cp-enterprise-control-center:6.0.1
+    image: confluentinc/cp-enterprise-control-center:7.3.1
     hostname: control-center
     container_name: control-center
     depends_on:
@@ -118,7 +118,7 @@ services:
       - movies
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:6.0.1
+    image: confluentinc/cp-ksqldb-server:7.3.1
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
@@ -143,7 +143,7 @@ services:
       - movies
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:6.0.1
+    image: confluentinc/cp-ksqldb-cli:7.3.1
     container_name: ksqldb-cli
     depends_on:
       - broker
@@ -155,7 +155,7 @@ services:
       - movies
 
   ksql-datagen:
-    image: confluentinc/ksqldb-examples:6.0.1
+    image: confluentinc/ksqldb-examples:7.3.1
     hostname: ksql-datagen
     container_name: ksql-datagen
     depends_on:
@@ -179,7 +179,7 @@ services:
       - movies
 
   rest-proxy:
-    image: confluentinc/cp-kafka-rest:6.0.1
+    image: confluentinc/cp-kafka-rest:7.3.1
     depends_on:
       - broker
       - schema-registry
