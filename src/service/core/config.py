@@ -10,12 +10,18 @@ from core.logger import LOGGING
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+class App(BaseModel):
+    jwt_secret_key: str = Field("someword")
+    algorithm: str = Field("HS256")
+
+
 class Kafka(BaseModel):
     host: str = Field("127.0.0.1")
     port: int = Field(9092)
 
 
 class Settings(BaseSettings):
+    app: App = App()
     kafka: Kafka = Kafka()
     project_name: str = Field("ugc")
     debug: bool = Field(False)
