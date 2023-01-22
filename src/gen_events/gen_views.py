@@ -5,6 +5,7 @@ import itertools
 import threading
 import uuid
 from collections import OrderedDict
+import json
 
 import numpy as np
 from faker import Faker
@@ -28,7 +29,8 @@ movies_all = 2
 min_len = 2 * 60 * 60
 max_len = 3 * 60 * 60
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
+                         value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 
 
 def gen_users() -> dict:
@@ -64,11 +66,14 @@ def gen_events(users: dict, movies: list) -> list:
                 for frame in range(attempts[i : i + 2][0], attempts[i : i + 2][1]):
                     # view = View(user_id=k, movie_id=movie, viewed_frame=frame)
                     # events.append(view)
-                    # todo: send to Kafka queue
+                    value = {
+                        "user_uuid": str(k),
+                        "movie_uuid": str(movie),
+                        "frame": frame,
+                    }
                     producer.send(
                         topic='views',
-                        value=str(frame).encode(),
-                        key=f"{k}+{movie}".encode(),
+                        value=value,
                     )
 
 def run_gen_events(users: dict, movies: list, threads: int = 2):
@@ -98,10 +103,10 @@ def get_messages():
 
 
 if __name__ == "__main__":
-    movies = get_movies_from_file("../../data_generator/id_films.txt")
+    movies = get_movies_from_file("data_generator/id_films.txt")
     users = gen_users()
     # run_gen_events(users, movies[0:10])
-    # gen_events(users, movies[0:10])
-    get_messages()
+    gen_events(users, movies[0:10])
+    # get_messages()
 
 
