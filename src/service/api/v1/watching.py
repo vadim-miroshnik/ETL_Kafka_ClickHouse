@@ -29,7 +29,8 @@ async def watched_movies(request: Request,
                          kafka_producer:
                          AIOKafkaProducer = Depends(get_kafka_producer)
                          ):
-    user = uuid.uuid4()
+    # user = uuid.uuid4()
+    user = request.state.user_id
     await kafka_producer.send_and_wait(f"{user}{movie_id}", frame.encode("UTF-8"))
     return WatchingResponse(movie_id=movie_id, user_id=user, frame=frame)
 
