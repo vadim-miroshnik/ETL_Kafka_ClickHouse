@@ -16,13 +16,12 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
-loop = asyncio.get_event_loop()
-
 
 @app.on_event("startup")
 async def startup_event():
     kafka.producer = AIOKafkaProducer(bootstrap_servers=f"{settings.kafka.host}:{settings.kafka.port}")
     await kafka.producer.start()
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -31,9 +30,9 @@ async def shutdown_event():
 
 app.include_router(watching.router, prefix="/api/v1/watching", tags=["films"])
 
-# uvicorn.run(
-#     app,  # type: ignore
-#     host="0.0.0.0",
-#     port=8001,
-# )
-
+if __name__ == "__main__":
+    uvicorn.run(
+        app,  # type: ignore
+        host="0.0.0.0",
+        port=8000,
+    )

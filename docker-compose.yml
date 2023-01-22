@@ -9,8 +9,12 @@ services:
     environment:
       KAFKA__HOST: broker
       KAFKA__PORT: 29092
+      APP__JWT_SECRET_KEY: $APP__JWT_SECRET_KEY
+      APP__ALGORITHM: HS256
     depends_on:
       - broker
+    env_file:
+      - .env
 
 networks:
     movies:

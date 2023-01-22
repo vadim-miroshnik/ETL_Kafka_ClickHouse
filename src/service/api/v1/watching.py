@@ -21,18 +21,15 @@ logger = logging.getLogger(__name__)
     response_model=WatchingResponse,
     summary="Добавление просмотренного фрейма в кафку",
     description="",
-    dependencies=[Depends(JWTBearer())]
+    dependencies=[Depends(JWTBearer())],
 )
-async def watched_movies(request: Request,
-                         frame: str,
-                         movie_id: UUID,
-                         kafka_producer:
-                         AIOKafkaProducer = Depends(get_kafka_producer)
-                         ):
-    # user = uuid.uuid4()
+async def watched_movies(
+    request: Request, frame: str, movie_id: UUID, kafka_producer: AIOKafkaProducer = Depends(get_kafka_producer)
+):
     user = request.state.user_id
     await kafka_producer.send_and_wait(f"{user}{movie_id}", frame.encode("UTF-8"))
     return WatchingResponse(movie_id=movie_id, user_id=user, frame=frame)
+
 
 @router.get(
     "/access_token",
@@ -42,8 +39,7 @@ async def watched_movies(request: Request,
     response_description="",
     tags=["events"],
 )
-async def get_access_token(user_id: str | None = None
-) -> str:
+async def get_access_token(user_id: str | None = None) -> str:
     if not user_id:
         user_id = str(uuid.uuid4())
     token: str = encode_jwt(user_id)
