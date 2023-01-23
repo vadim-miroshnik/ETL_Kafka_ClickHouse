@@ -1,5 +1,7 @@
 # Проектная работа 8 спринта
 
+https://github.com/dimkaddi/ugc_sprint_1
+
 Запуск окружения (кафка и кликхаус):
 
     make run_environment
