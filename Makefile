@@ -31,3 +31,9 @@ logs:
 
 prepare:
 	cp .env.example .env
+
+setup_etl:
+	python ./src/etl/setup.py
+
+gen_views:
+	python ./src/gen_events/gen_views.py
