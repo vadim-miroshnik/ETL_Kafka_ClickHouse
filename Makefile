@@ -1,5 +1,5 @@
 run_click_house :
-	docker-compose -f docker-compose.yml -f docker-compose_clickhouse.yml up -d \
+	docker-compose -f docker-compose.yml -f docker-compose_clickhouse.yml -f docker-compose_kafka.yml up -d \
 		zookeeper_ch \
 		clickhouse-node1 \
 		clickhouse-node2 \
@@ -7,7 +7,7 @@ run_click_house :
 		clickhouse-node4
 
 run_kafka:
-	docker-compose -f docker-compose.yml -f docker-compose_kafka.yml up -d \
+	docker-compose -f docker-compose.yml -f docker-compose_kafka.yml -f docker-compose_clickhouse.yml up -d \
 		zookeeper \
 		broker \
 		schema-registry \
@@ -30,6 +30,7 @@ logs:
 	docker-compose -f docker-compose.yml -f docker-compose_kafka.yml -f docker-compose_clickhouse.yml logs -f
 
 prepare:
+	pip3 install -r requirements.txt
 	cp .env.example .env
 
 setup_etl:
@@ -37,3 +38,6 @@ setup_etl:
 
 gen_views:
 	python ./src/gen_events/gen_views.py
+
+run_prod: run_environment
+	docker-compose -f docker-compose.yml -f docker-compose_kafka.yml up -d --build ugc nginx
