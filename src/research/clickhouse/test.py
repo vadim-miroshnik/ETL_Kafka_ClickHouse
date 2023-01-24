@@ -2,6 +2,7 @@
 
 import time
 from functools import wraps
+
 import clickhouse_driver
 
 client = clickhouse_driver.Client(host='localhost')

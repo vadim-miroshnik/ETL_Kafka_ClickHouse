@@ -1,9 +1,10 @@
 """"""
 
-import time
 import random
+import time
 import uuid
 from datetime import datetime
+
 import clickhouse_driver
 
 client = clickhouse_driver.Client(host='localhost')

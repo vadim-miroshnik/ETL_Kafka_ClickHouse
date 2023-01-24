@@ -1,12 +1,12 @@
 """"""
 
+import random
 import time
 import uuid
-import random
 from datetime import datetime
+
 import vertica_python
 from tqdm.contrib.concurrent import process_map
-
 
 user_ids = [str(uuid.uuid4()) for _ in range(100)]
 movie_ids = [str(uuid.uuid4()) for _ in range(1000)]
