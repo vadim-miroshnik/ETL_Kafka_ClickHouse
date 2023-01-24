@@ -1,5 +1,3 @@
-import asyncio
-
 import uvicorn
 from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI

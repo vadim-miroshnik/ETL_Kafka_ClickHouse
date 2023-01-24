@@ -1,18 +1,14 @@
-from kafka import KafkaProducer
-from kafka import KafkaConsumer
-from time import sleep
 import itertools
+import json
 import threading
 import uuid
 from collections import OrderedDict
-import json
 
 import numpy as np
 from faker import Faker
+from kafka import KafkaConsumer
+from kafka import KafkaProducer
 from transliterate import get_translit_function
-
-from view import View
-
 
 locales = OrderedDict([("ru-RU", 1)])
 fake = Faker(locales)
