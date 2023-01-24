@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from fastapi import Request, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.responses import ORJSONResponse
 
 from .auth_handler import decode_jwt
 
@@ -17,7 +18,7 @@ class JWTBearer(HTTPBearer):
             if not (payload := self.verify_jwt(credentials.credentials)):
                 raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Invalid token or expired token.")
             request.state.user_id = payload["user_id"]
-            return credentials.credentials
+            return ORJSONResponse(credentials.credentials)
         else:
             raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Invalid authorization code.")
 
