@@ -1,3 +1,5 @@
+## ETL для перекачки данных из Kafka в ClickHouse
+
 Запуск окружения (кафка и кликхаус):
 
     make run_environment
